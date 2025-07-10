@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pokepost — Profile</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gradient-to-br from-emerald-50 via-white to-green-100 min-h-screen font-sans text-gray-800">
+
+  <!-- Header -->
+  <header class="sticky top-0 z-20 flex justify-between items-center px-6 py-4 bg-white/70 backdrop-blur-md shadow-sm border-b border-green-100">
+    <h1 class="text-xl sm:text-2xl font-bold text-emerald-700">Welcome back to Pokepost 🍃</h1>
+    <!-- <button class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md" >Logout</button> -->
+
+      <form method="get" action="/logout">
+        <input
+          type="submit"
+          value="Logout"
+          class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md"
+        />
+      </form>
+  </header>
+
+  <!-- Profile Content -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+    
+    <!-- User Info -->
+    <section class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0 mb-8">
+      <img src="#" alt="Profile" class="w-24 h-24 rounded-full border-4 border-emerald-300 shadow-lg" />
+      <div class="text-center sm:text-left">
+        <h2 class="text-2xl font-semibold text-emerald-800">User Name</h2>
+        <p class="text-sm text-gray-500">
+          user About
+          <!-- Creative Pokétrainer & Poster -->
+
+        </p>
+      </div>
+    </section>
+
+    <!-- Posts Section -->
+    <section>
+      <h3 class="text-lg sm:text-xl font-semibold text-emerald-700 mb-6">Your Recent Posts</h3>
+      <div class="grid gap-6 sm:grid-cols-2">
+        <div class="p-5 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg transition hover:shadow-xl hover:scale-[1.01]">
+          <p class="text-gray-700 mb-2">Caught a shiny Bulbasaur today! 🌱✨</p>
+          <p class="text-xs text-gray-400">Posted on July 10, 2025</p>
+        </div>
+        <div class="p-5 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg transition hover:shadow-xl hover:scale-[1.01]">
+          <p class="text-gray-700 mb-2">Explored Viridian Forest and met some trainers 🧭</p>
+          <p class="text-xs text-gray-400">Posted on July 8, 2025</p>
+        </div>
+        <!-- Add more cards here -->
+      </div>
+
+<div class="flex flex-col items-center justify-center p-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg text-center space-y-2 hover:shadow-xl transition">
+    
+  <p class="text-lg font-medium text-gray-600 italic tracking-widest
+">There is no posts yet</p>
+  <p class="text-sm text-gray-500">Your adventures are waiting—share your first Poképiece!</p>
+</div>
+    </section>
+  </main>
+
+</body>
+</html>

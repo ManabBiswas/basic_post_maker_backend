@@ -36,6 +36,11 @@ app.get('/login', (req, res) => {
 
 })
 
+app.get('/profile', (req, res) => {
+    res.render("profile")
+
+})
+
 
 app.get('/dashbord',isloggedIn, (req, res) => {
     res.send("dashboard")
@@ -57,7 +62,7 @@ app.post('/register', async (req, res) => {
         console.log('salt is:', salt);
         bcrypt.hash(password, salt, async (err, hash) => {
             console.log("hash is ", hash);
-            let userCreate = await userModel.create({
+            var userCreate = await userModel.create({
                 name,
                 username,
                 email,
@@ -82,10 +87,10 @@ app.post('/login', async (req, res) => {
     bcrypt.compare(password, find.password, (err, result) => {
         if (result) {
             let token = jwt.sign({
-                email: email, userid: userCreate._id
+                email: email, userid: find._id
             }, 'theSecreteCode');
             res.cookie('token', token);
-            res.status(200).send("login succesfully!!")
+            res.status(200).redirect("/profile")
         } else res.redirect('/');
     })
 })
