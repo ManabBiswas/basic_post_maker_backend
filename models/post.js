@@ -11,6 +11,7 @@ const postSchema = mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    title: String,
     content: String,
     likes: [
         {

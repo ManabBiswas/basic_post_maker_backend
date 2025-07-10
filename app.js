@@ -5,7 +5,8 @@ const userModel = require('./models/user');
 const postModel = require('./models/post');
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const user = require('./models/user');
 
 app.set("view engine", "ejs")
 app.use(express.json());
@@ -17,7 +18,10 @@ app.use(cookieParser());
 const isloggedIn = (req, res, next) => {
     console.log(req.cookies);
     const token = req.cookies.token;
-    if (!token) return res.status(401).send("Not authenticated");
+    if (!token) {
+        console.log("Not authenticated");
+        return res.status(401).redirect('/');
+    }
 
     jwt.verify(token, 'theSecreteCode', (err, decoded) => {
         if (err) return res.status(403).send("Invalid token");
@@ -36,16 +40,31 @@ app.get('/login', (req, res) => {
 
 })
 
-app.get('/profile', (req, res) => {
-    res.render("profile")
+app.get('/profile', isloggedIn, async (req, res) => {
+    let user = await userModel.findOne({email: req.user.email}).populate("posts");
+    console.log(user)
+    res.render("profile",{user})
 
 })
 
+app.post('/post', isloggedIn, async (req, res) => {
+    let user = await userModel.findOne({email: req.user.email});
+    let {title,content} = req.body;
+    let post = await postModel.create({
+        user: user._id,
+        title,
+        content,
 
-app.get('/dashbord',isloggedIn, (req, res) => {
-    res.send("dashboard")
+    });
+    user.posts.push(post._id);
+    await user.save();
+    res.redirect('/profile')
+
+    // console.log(user)
+    // res.render("profile",{user})
 
 })
+
 
 
 app.get('/logout', (req, res) => {
@@ -73,7 +92,8 @@ app.post('/register', async (req, res) => {
                 email: email, userid: userCreate._id
             }, 'theSecreteCode');
             res.cookie('token', token);
-            res.send("registered succesfully!")
+            console.log("registered succesfully!");
+            res.redirect('/profi;e');
         })
     })
 })
@@ -90,8 +110,11 @@ app.post('/login', async (req, res) => {
                 email: email, userid: find._id
             }, 'theSecreteCode');
             res.cookie('token', token);
-            res.status(200).redirect("/profile")
-        } else res.redirect('/');
+            res.status(200).redirect("/profile");
+            console.log("login succesfull");
+        } else {res.redirect('/');
+            console.log("try again later")
+        }
     })
 })
 
@@ -99,6 +122,6 @@ app.post('/login', async (req, res) => {
 
 
 app.listen(3000, (req, res) => {
-    console.log("the is running at http://localhost:3000/")
+    console.log("the is running at http://localhost:3000")
 })
 
