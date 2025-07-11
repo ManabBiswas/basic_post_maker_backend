@@ -1,159 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pokepost — Profile</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  </head>
-  <body
-    class="bg-gradient-to-br from-emerald-50 via-white to-green-100 min-h-screen font-sans text-gray-800"
-  >
-    <!-- Header -->
-    <header
-      class="sticky top-0 z-20 flex justify-between items-center px-6 py-4 bg-white/70 backdrop-blur-md shadow-sm border-b border-green-100"
-    >
-      <h1 class="text-xl sm:text-2xl font-bold text-emerald-700">
-        Welcome back to Pokepost 🍃
-      </h1>
-      <!-- <button class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md" >Logout</button> -->
 
-      <form method="get" action="/logout">
-        <input
-          type="submit"
-          value="Logout"
-          class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md"
-        />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>pokepost — Profile</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-gradient-to-br from-emerald-50 via-white to-green-100 min-h-screen font-sans text-gray-800">
+  <!-- Header -->
+  <header class="sticky top-0 z-20 flex justify-between items-center px-6 py-4 bg-white/70 backdrop-blur-md shadow-sm border-b border-green-100">
+    <h1 class="text-xl sm:text-2xl font-bold text-emerald-700">
+      Welcome back to Pokepost 🍃
+    </h1>
+    <!-- <button class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md" >Logout</button> -->
+
+    <form method="get" action="/logout">
+      <input type="submit" value="Logout" class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md" />
+    </form>
+  </header>
+
+  <!-- Profile Content -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
+    <!-- User Info -->
+    <section class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0 mb-8">
+      <img src="#" alt="Profile" class="w-24 h-24 rounded-full border-4 border-emerald-300 shadow-lg" />
+      <div class="text-center sm:text-left">
+        <h2 class="text-2xl font-semibold text-emerald-800">
+          <%= user.name%>
+        </h2>
+        <p class="text-sm text-gray-500">
+          user About
+          <!-- Creative Pokétrainer & Poster -->
+        </p>
+      </div>
+    </section>
+    <!-- Create Post Form -->
+    <section class="mt-12 mb-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg p-6 space-y-4">
+      <h3 class="text-lg font-bold sm:text-xl text-emerald-700 text-center">
+        Share a New Poképiece 📝
+      </h3>
+
+      <form method="post" action="/post" class="space-y-4">
+        <input type="text" name="title" placeholder="Title your adventure" class="w-full px-4 py-2 bg-green-50 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition" />
+
+        <textarea name="content" rows="4" placeholder="Tell your Pokéstory..." class="w-full px-4 py-2 bg-green-50 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition resize-none"></textarea>
+
+        <input type="submit" value="Post" class="w-full bg-gradient-to-r from-emerald-500 to-green-400 text-white py-3 rounded-xl font-semibold hover:brightness-110 shadow-md hover:shadow-xl transition duration-300" />
       </form>
-    </header>
+    </section>
+    <hr class="btext-emerald-500 mb-4" />
+    <!-- Posts Section -->
+    <section>
+      <h3 class="text-lg sm:text-xl font-semibold text-emerald-700 mb-6">
+        Your Recent Posts
+      </h3>
+      <div class="grid gap-6 sm:grid-cols-2">
+        <% if(user.posts.length > 0) { %>
+        <% user.posts.reverse().forEach(post => { %>
+        <div class="group p-6 bg-white/70 backdrop-blur-lg border border-emerald-100 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:bg-white/80">
+          <!-- Post Header -->
+          <div class="mb-4">
+            <h3 class="text-xl font-bold text-emerald-800 mb-2 group-hover:text-emerald-900 transition-colors">
+              <%= post.title %>
+            </h3>
+            <div class="w-full h-px bg-gradient-to-r from-emerald-200 via-green-300 to-emerald-200"></div>
+          </div>
 
-    <!-- Profile Content -->
-    <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-      <!-- User Info -->
-      <section
-        class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0 mb-8"
-      >
-        <img
-          src="#"
-          alt="Profile"
-          class="w-24 h-24 rounded-full border-4 border-emerald-300 shadow-lg"
-        />
-        <div class="text-center sm:text-left">
-          <h2 class="text-2xl font-semibold text-emerald-800">
-            <%= user.name%>
-          </h2>
+          <!-- Post Content -->
+          <p class="text-gray-700 mb-4 leading-relaxed italic">
+            <%= post.content %>
+          </p>
+
+          <!-- Engagement Stats -->
+          <div class="flex items-center mb-4">
+            <div class="flex items-center gap-2 px-3 py-1 bg-emerald-50 rounded-full">
+              <!-- <span class="text-red-500">❤️</span> -->
+              <span class="text-sm font-medium text-gray-700">
+                <%= post.likes.length %> likes
+              </span>
+            </div>
+          </div>
+
+          <!-- Actions and Date -->
+          <div class="flex justify-between items-center pt-3 border-t border-emerald-100">
+            <div class="flex items-center gap-3">
+              <a href="/like/<%= post._id %>" class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors duration-200 text-sm font-medium">
+                <!-- <span>👍</span> -->
+                <!-- Like -->
+                <%= post.likes.indexOf(user._id) ? "Like" : "Unlike"  %>
+              </a>
+              <a href="/edit/<%= post._id %>" class="flex items-center gap-1 px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors duration-200 text-sm font-medium">
+                <!-- <span>✏️</span> -->
+                Edit
+              </a>
+            </div>
+            <p class="text-xs text-gray-400 flex items-center gap-1">
+              <!-- <span>📅</span> -->
+              Posted on <%= post.date.toDateString() %>
+            </p>
+          </div>
+        </div>
+        <% }); %>
+        <% } else { %>
+        <div class="flex flex-col items-center justify-center p-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg text-center space-y-2 hover:shadow-xl transition">
+          <p class="text-lg font-medium text-gray-600 italic tracking-widest">
+            There is no posts yet
+          </p>
           <p class="text-sm text-gray-500">
-            user About
-            <!-- Creative Pokétrainer & Poster -->
+            Your adventures are waiting—share your first Poképiece!
           </p>
         </div>
-      </section>
-      <!-- Create Post Form -->
-      <section
-        class="mt-12 mb-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg p-6 space-y-4"
-      >
-        <h3
-          class="text-lg sm:text-xl font-semibold text-emerald-700 text-center"
-        >
-          Share a New Poképiece 📝
-        </h3>
+        <% } %>
 
-        <form method="post" action="/post" class="space-y-4">
-          <input
-            type="text"
-            name="title"
-            placeholder="Title your adventure"
-            class="w-full px-4 py-2 bg-green-50 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
-          />
-
-          <textarea
-            name="content"
-            rows="4"
-            placeholder="Tell your Pokéstory..."
-            class="w-full px-4 py-2 bg-green-50 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition resize-none"
-          ></textarea>
-
-          <input
-            type="submit"
-            value="Post"
-            class="w-full bg-gradient-to-r from-emerald-500 to-green-400 text-white py-3 rounded-xl font-semibold hover:brightness-110 shadow-md hover:shadow-xl transition duration-300"
-          />
-        </form>
-      </section>
-      <hr class="btext-emerald-500 mb-4" />
-      <!-- Posts Section -->
-      <section>
-        <h3 class="text-lg sm:text-xl font-semibold text-emerald-700 mb-6">
-          Your Recent Posts
-        </h3>
-        <div class="grid gap-6 sm:grid-cols-2">
-          <% if(user.posts.length > 0) { %>
-            <% user.posts.reverse().forEach(post => { %>
-          <div
-            class="group p-6 bg-white/70 backdrop-blur-lg border border-emerald-100 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:bg-white/80"
-          >
-            <!-- Post Header -->
-            <div class="mb-4">
-              <h3 class="text-lg font-semibold text-emerald-800 mb-2 group-hover:text-emerald-900 transition-colors">
-                <%= post.title %>
-              </h3>
-              <div class="w-full h-px bg-gradient-to-r from-emerald-200 via-green-300 to-emerald-200"></div>
-            </div>
-            
-            <!-- Post Content -->
-            <p class="text-gray-700 mb-4 leading-relaxed">
-              <%= post.content %>
-            </p>
-            
-            <!-- Engagement Stats -->
-            <div class="flex items-center mb-4">
-              <div class="flex items-center gap-2 px-3 py-1 bg-emerald-50 rounded-full">
-                <!-- <span class="text-red-500">❤️</span> -->
-                <span class="text-sm font-medium text-gray-700">
-                  <%= post.likes.length || 0 %> likes
-                </span>
-              </div>
-            </div>
-            
-            <!-- Actions and Date -->
-            <div class="flex justify-between items-center pt-3 border-t border-emerald-100">
-              <div class="flex items-center gap-3">
-                <a 
-                  href="/like/<%= post._id %>" 
-                  class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors duration-200 text-sm font-medium"
-                >
-                  <!-- <span>👍</span> -->
-                  Like
-                </a>
-                <a 
-                  href="/edit/<%= post._id %>" 
-                  class="flex items-center gap-1 px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors duration-200 text-sm font-medium"
-                >
-                  <!-- <span>✏️</span> -->
-                  Edit
-                </a>
-              </div>
-              <p class="text-xs text-gray-400 flex items-center gap-1">
-                <!-- <span>📅</span> -->
-                Posted on <%= post.date %>
-              </p>
-            </div>
-          </div>
-            <% }); %>
-          <% } else { %>
-          <div
-            class="flex flex-col items-center justify-center p-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg text-center space-y-2 hover:shadow-xl transition"
-          >
-            <p class="text-lg font-medium text-gray-600 italic tracking-widest">
-              There is no posts yet
-            </p>
-            <p class="text-sm text-gray-500">
-              Your adventures are waiting—share your first Poképiece!
-            </p>
-          </div>
-          <% } %>
-
-          <!-- <div
+        <!-- <div
             class="p-5 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg transition hover:shadow-xl hover:scale-[1.01]"
           >
             <p class="text-gray-700 mb-2">
@@ -175,9 +136,10 @@
               <p class="text-blue-400 text-xs">Like Or Edit</p>
             </div>
           </div> -->
-          <!-- Add more cards here -->
-        </div>
-      </section>
-    </main>
-  </body>
+        <!-- Add more cards here -->
+      </div>
+    </section>
+  </main>
+</body>
+
 </html>
