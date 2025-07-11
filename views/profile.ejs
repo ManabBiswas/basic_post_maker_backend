@@ -87,19 +87,60 @@
           Your Recent Posts
         </h3>
         <div class="grid gap-6 sm:grid-cols-2">
-          <% if(user.posts.length > 0) {%> 
-            <% user.posts.reverse().forEach(post => {%>
+          <% if(user.posts.length > 0) { %>
+            <% user.posts.reverse().forEach(post => { %>
           <div
-            class="p-5 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg transition hover:shadow-xl hover:scale-[1.01]"
+            class="group p-6 bg-white/70 backdrop-blur-lg border border-emerald-100 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:bg-white/80"
           >
-            <h3 class="text-gray-700 mb-2"><%=post.title%></h3>
-            <p class="text-gray-700 mb-2"><%=post.content%></p>
-            <div class="flex justify-between">
-              <p class="text-xs text-gray-400">Posted on July 10, 2025</p>
-              <p class="text-blue-400 text-xs">Like Or Edit</p>
+            <!-- Post Header -->
+            <div class="mb-4">
+              <h3 class="text-lg font-semibold text-emerald-800 mb-2 group-hover:text-emerald-900 transition-colors">
+                <%= post.title %>
+              </h3>
+              <div class="w-full h-px bg-gradient-to-r from-emerald-200 via-green-300 to-emerald-200"></div>
+            </div>
+            
+            <!-- Post Content -->
+            <p class="text-gray-700 mb-4 leading-relaxed">
+              <%= post.content %>
+            </p>
+            
+            <!-- Engagement Stats -->
+            <div class="flex items-center mb-4">
+              <div class="flex items-center gap-2 px-3 py-1 bg-emerald-50 rounded-full">
+                <!-- <span class="text-red-500">❤️</span> -->
+                <span class="text-sm font-medium text-gray-700">
+                  <%= post.likes.length || 0 %> likes
+                </span>
+              </div>
+            </div>
+            
+            <!-- Actions and Date -->
+            <div class="flex justify-between items-center pt-3 border-t border-emerald-100">
+              <div class="flex items-center gap-3">
+                <a 
+                  href="/like/<%= post._id %>" 
+                  class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors duration-200 text-sm font-medium"
+                >
+                  <!-- <span>👍</span> -->
+                  Like
+                </a>
+                <a 
+                  href="/edit/<%= post._id %>" 
+                  class="flex items-center gap-1 px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors duration-200 text-sm font-medium"
+                >
+                  <!-- <span>✏️</span> -->
+                  Edit
+                </a>
+              </div>
+              <p class="text-xs text-gray-400 flex items-center gap-1">
+                <!-- <span>📅</span> -->
+                Posted on <%= post.date %>
+              </p>
             </div>
           </div>
-          <% })} else{ %>
+            <% }); %>
+          <% } else { %>
           <div
             class="flex flex-col items-center justify-center p-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg text-center space-y-2 hover:shadow-xl transition"
           >
@@ -110,7 +151,6 @@
               Your adventures are waiting—share your first Poképiece!
             </p>
           </div>
-
           <% } %>
 
           <!-- <div
