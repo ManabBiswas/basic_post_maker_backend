@@ -14,135 +14,177 @@
     <h1 class="text-xl sm:text-2xl font-bold text-emerald-700">
       Welcome back to Pokepost 🍃
     </h1>
-    <!-- <button class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md" >Logout</button> -->
-
-    <form method="get" action="/logout">
-      <input type="submit" value="Logout" class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition md:text-xs shadow-md" />
-    </form>
+    <div class="flex items-center gap-3">
+      <a href="/profile-update" class="px-4 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition shadow-md text-sm">
+        Edit Profile
+      </a>
+      <form method="get" action="/logout" class="inline">
+        <input type="submit" value="Logout" class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md cursor-pointer text-sm" />
+      </form>
+    </div>
   </header>
 
   <!-- Profile Content -->
   <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-    <!-- User Info -->
-    <section class="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0 mb-8 px-6">
-      <img src="#" alt="Profile" class="w-28 h-28 rounded-full border-6 border-double border-emerald-300 shadow-lg" />
-      <div class="text-center sm:text-left mt-6">
-        <h2 class="text-2xl font-semibold text-emerald-800">
-          <%= user.name%>
-        </h2>
-        <p class="text-sm text-gray-500">
-         <%= user.about%>
-           Creative Pokétrainer & Poster. 
-        </p>
+    <!-- User Info Card -->
+    <section class="bg-white/70 backdrop-blur-lg border border-emerald-100 rounded-2xl shadow-xl p-8 mb-8 overflow-hidden relative">
+      <!-- Background Pattern -->
+      <div class="absolute inset-0 bg-gradient-to-r from-emerald-50/50 to-green-50/50 opacity-50"></div>
+      
+      <div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-start sm:space-x-8 space-y-6 sm:space-y-0">
+        <!-- Profile Image -->
+        <div class="relative">
+          <div class="w-32 h-32 rounded-full p-0.5 shadow-lg">
+            <img src="/images/uploads/<%= user.profileImage %>" alt="<%= user.name %>" class="w-full h-full rounded-full object-cover border-6 border-double border-emerald-300 shadow-md" />
+          </div>
+          <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center shadow-lg">
+            <span class="text-white text-sm">🌟</span>
+          </div>
+        </div>
+        
+        <!-- User Details -->
+        <div class="flex-1 text-center sm:text-left">
+          <h2 class="text-3xl font-bold text-emerald-800 mb-2">
+            <%= user.name %>
+          </h2>
+          <p class="text-emerald-600 font-medium mb-3">
+            @<%= user.username %>
+          </p>
+          <p class="text-gray-600 leading-relaxed mb-4 max-w-md">
+            <%= user.about || "Creative Pokétrainer & Poster exploring the world of Pokémon!" %>
+          </p>
+          
+          <!-- Stats -->
+          <div class="flex justify-center sm:justify-start gap-6 mt-6">
+            <div class="text-center">
+              <div class="text-2xl font-bold text-emerald-700">
+                <%= user.posts.length %>
+              </div>
+              <div class="text-sm text-gray-500">Posts</div>
+            </div>
+            <div class="text-center">
+              <div class="text-2xl font-bold text-emerald-700">
+                <%= user.posts.reduce((total, post) => total + post.likes.length, 0) %>
+              </div>
+              <div class="text-sm text-gray-500">Likes</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
+
     <!-- Create Post Form -->
-    <section class="mt-12 mb-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg p-6 space-y-4">
-      <h3 class="text-lg font-bold sm:text-xl text-emerald-700 text-center">
-        Share a New Poképiece 📝
+    <section class="bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg p-6 mb-8">
+      <h3 class="text-lg font-bold sm:text-xl text-emerald-700 text-center mb-6 flex items-center justify-center gap-2">
+        <span>📝</span>
+        Share a New Poképiece
       </h3>
 
       <form method="post" action="/post" class="space-y-4">
-        <input type="text" name="title" placeholder="Title your adventure" class="w-full px-4 py-2 bg-green-50 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition" required/>
+        <input type="text" name="title" placeholder="Title your adventure..." class="w-full px-4 py-3 bg-green-50/80 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition" required/>
 
-        <textarea name="content" rows="4" placeholder="Tell your Pokéstory..." class="w-full px-4 py-2 bg-green-50 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition resize-none" required></textarea>
+        <textarea name="content" rows="4" placeholder="Tell your Pokéstory..." class="w-full px-4 py-3 bg-green-50/80 border border-emerald-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 focus:border-emerald-400 transition resize-none" required></textarea>
 
-        <input type="submit" value="Post" class="w-full bg-gradient-to-r from-emerald-500 to-green-400 text-white py-3 rounded-xl font-semibold hover:brightness-110 shadow-md hover:shadow-xl transition duration-300" />
+        <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-green-400 text-white py-3 rounded-xl font-semibold hover:brightness-110 shadow-md hover:shadow-xl transition duration-300 flex items-center justify-center gap-2">
+          <span>🚀</span>
+          Share Adventure
+        </button>
       </form>
     </section>
-    <hr class="btext-emerald-500 mb-4" />
+
     <!-- Posts Section -->
     <section>
-      <h3 class="text-lg sm:text-xl font-semibold text-emerald-700 mb-6">
-        Your Recent Posts
+      <h3 class="text-lg sm:text-xl font-semibold text-emerald-700 mb-6 flex items-center gap-2">
+        <span>📚</span>
+        Your Recent Adventures
       </h3>
-      <div class="grid gap-6 sm:grid-cols-2">
-        <% if(user.posts.length > 0) { %>
-        <% user.posts.reverse().forEach(post => { %>
-        <div class="group p-6 bg-white/70 backdrop-blur-lg border border-emerald-100 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:bg-white/80">
-          <!-- Post Header -->
-          <div class="mb-4">
-            <h3 class="text-xl font-bold text-emerald-800 mb-2 group-hover:text-emerald-900 transition-colors">
-              <%= post.title %>
-            </h3>
-            <div class="w-full h-px bg-gradient-to-r from-emerald-200 via-green-300 to-emerald-200"></div>
-          </div>
-
-          <!-- Post Content -->
-          <p class="text-gray-700 mb-4 leading-relaxed italic">
-            <%= post.content %>
-          </p>
-
-          <!-- Engagement Stats -->
-          <p class="text-green-400 text-[10px] mb-4 italic ">
-          @<%= user.username%>
-          </p>
-          <div class="flex items-center mb-4">
-            <div class="flex items-center gap-2 px-3 py-1 bg-emerald-50 rounded-full">
-              <!-- <span class="text-red-500">❤️</span> -->
-              <span class="text-sm font-medium text-gray-700">
-                <%= post.likes.length %> likes
-              </span>
+      
+      <% if(user.posts.length > 0) { %>
+        <div class="grid gap-6 sm:grid-cols-2">
+          <% user.posts.reverse().forEach(post => { %>
+          <div class="group p-6 bg-white/70 backdrop-blur-lg border border-emerald-100 rounded-2xl shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] hover:bg-white/80">
+            <!-- Post Header -->
+            <div class="mb-4">
+              <h3 class="text-xl font-bold text-emerald-800 mb-2 group-hover:text-emerald-900 transition-colors line-clamp-2">
+                <%= post.title %>
+              </h3>
+              <div class="w-full h-px bg-gradient-to-r from-emerald-200 via-green-300 to-emerald-200"></div>
             </div>
-          </div>
 
-          <!-- Actions and Date -->
-          <div class="flex justify-between items-center pt-3 border-t border-emerald-100">
-            <div class="flex items-center gap-3">
-              <a href="/like/<%= post._id %>" class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors duration-200 text-sm font-medium">
-                <!-- <span>👍</span> -->
-                <!-- Like -->
-                <%= post.likes.indexOf(user._id) ? "Like" : "Unlike"  %>
-              </a>
-              <a href="/edit/<%= post._id %>" class="flex items-center gap-1 px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors duration-200 text-sm font-medium">
-                <!-- <span>✏️</span> -->
-                Edit
-              </a>
-            </div>
-            <p class="text-xs text-gray-400 flex items-center gap-1">
-              <!-- <span>📅</span> -->
-              Posted on <%= post.date.toDateString() %>
+            <!-- Post Content -->
+            <p class="text-gray-700 mb-4 leading-relaxed line-clamp-3">
+              <%= post.content %>
             </p>
+
+            <!-- Author Info -->
+            <div class="flex items-center gap-2 mb-4">
+              <img src="/images/uploads/<%= user.profileImage %>" alt="<%= user.name %>" class="w-6 h-6 rounded-full object-cover border border-emerald-200" />
+              <p class="text-emerald-600 text-sm font-medium">
+                @<%= user.username %>
+              </p>
+            </div>
+
+            <!-- Engagement Stats -->
+            <div class="flex items-center mb-4">
+              <div class="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-red-50 to-pink-50 rounded-full border border-red-100">
+                <span class="text-red-500">❤️</span>
+                <span class="text-sm font-medium text-gray-700">
+                  <%= post.likes.length %> likes
+                </span>
+              </div>
+            </div>
+
+            <!-- Actions and Date -->
+            <div class="flex justify-between items-center pt-3 border-t border-emerald-100">
+              <div class="flex items-center gap-3">
+                <a href="/like/<%= post._id %>" class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors duration-200 text-sm font-medium">
+                  <span>👍</span>
+                  <%= post.likes.indexOf(user._id) !== -1 ? "Unlike" : "Like" %>
+                </a>
+                <a href="/edit/<%= post._id %>" class="flex items-center gap-1 px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-600 rounded-lg transition-colors duration-200 text-sm font-medium">
+                  <span>✏️</span>
+                  Edit
+                </a>
+              </div>
+              <p class="text-xs text-gray-400 flex items-center gap-1">
+                <span>📅</span>
+                <%= post.date.toDateString() %>
+              </p>
+            </div>
+          </div>
+          <% }); %>
+        </div>
+      <% } else { %>
+        <div class="flex justify-center items-center w-full">
+          <div class="w-full max-w-md p-8 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg text-center space-y-4 hover:shadow-xl transition">
+            <div class="text-6xl mb-4">🌱</div>
+            <p class="text-lg font-medium text-gray-600">
+              No adventures yet
+            </p>
+            <p class="text-sm text-gray-500 leading-relaxed">
+              Your Pokémon journey awaits! Share your first story and let the adventures begin.
+            </p>
+            <div class="pt-4">
+              <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-lg text-sm">
+                <span>✨</span>
+                Ready to start posting?
+              </div>
+            </div>
           </div>
         </div>
-        <% }); %>
-        <% } else { %>
-        <div class="flex flex-col items-center justify-center p-6 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg text-center space-y-2 hover:shadow-xl transition">
-          <p class="text-lg font-medium text-gray-600 italic tracking-widest">
-            There is no posts yet
-          </p>
-          <p class="text-sm text-gray-500">
-            Your adventures are waiting—share your first Poképiece!
-          </p>
-        </div>
-        <% } %>
-
-        <!-- <div
-            class="p-5 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg transition hover:shadow-xl hover:scale-[1.01]"
-          >
-            <p class="text-gray-700 mb-2">
-              Caught a shiny Bulbasaur today! 🌱✨
-            </p>
-            <div class="flex justify-between">
-              <p class="text-xs text-gray-400">Posted on July 10, 2025</p>
-              <p class="text-blue-400 text-xs">Like Or Edit</p>
-            </div>
-          </div>
-          <div
-            class="p-5 bg-white/60 backdrop-blur-lg border border-emerald-100 rounded-xl shadow-lg transition hover:shadow-xl hover:scale-[1.01]"
-          >
-            <p class="text-gray-700 mb-2">
-              Explored Viridian Forest and met some trainers 🧭
-            </p>
-            <div class="flex justify-between">
-              <p class="text-xs text-gray-400">Posted on July 8, 2025</p>
-              <p class="text-blue-400 text-xs">Like Or Edit</p>
-            </div>
-          </div> -->
-        <!-- Add more cards here -->
-      </div>
+      <% } %>
     </section>
   </main>
+
+  <!-- Footer -->
+  <footer class="mt-16 py-8 text-center text-gray-500 text-sm">
+    <div class="flex items-center justify-center gap-2 mb-2">
+      <span>🍃</span>
+      <span>Made with love for Pokémon trainers</span>
+      <span>🍃</span>
+    </div>
+    <p>© 2024 Pokepost - Share your adventures!</p>
+  </footer>
 </body>
 
 </html>

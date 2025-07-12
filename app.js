@@ -13,11 +13,12 @@ app.set("view engine", "ejs")
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")))
 
 // middleware
 
 const isloggedIn = (req, res, next) => {
-    console.log(req.cookies);
+    // console.log(req.cookies);
     const token = req.cookies.token;
     if (!token) {
         console.log("Not authenticated");
@@ -112,9 +113,9 @@ app.post('/register', async (req, res) => {
     if (find) return res.status(500).send("user already registered please sign up");
 
     bcrypt.genSalt(10, (err, salt) => {
-        console.log('salt is:', salt);
+        // console.log('salt is:', salt);
         bcrypt.hash(password, salt, async (err, hash) => {
-            console.log("hash is ", hash);
+            // console.log("hash is ", hash);
             var userCreate = await userModel.create({
                 name,
                 username,
@@ -127,7 +128,7 @@ app.post('/register', async (req, res) => {
             }, 'theSecreteCode');
             res.cookie('token', token);
             console.log("registered succesfully!");
-            res.redirect('/profi;e');
+            res.redirect('/profile');
         })
     })
 })
