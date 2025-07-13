@@ -177,14 +177,25 @@
   </main>
 
   <!-- Footer -->
-  <footer class="mt-16 py-8 text-center text-gray-500 text-sm">
-    <div class="flex items-center justify-center gap-2 mb-2">
-      <span>🍃</span>
-      <span>Made with love for Pokémon trainers</span>
-      <span>🍃</span>
-    </div>
-    <p>© 2024 Pokepost - Share your adventures!</p>
-  </footer>
+<footer class="mt-24 px-6 py-10 bg-gradient-to-b from-emerald-200 via-green-200 to-white/80 backdrop-blur-lg border-t border-emerald-100 shadow-inner text-center text-gray-600 text-sm rounded-t-xl">
+  <div class="flex items-center justify-center gap-2 mb-3 text-emerald-600 font-semibold">
+    <span class="animate-bounce">🍃</span>
+    <span>Pokepost — Made with love for Pokémon trainers
+</span>
+    <span class="animate-bounce">🍃</span>
+  </div>
+  <p class="text-gray-500 mb-1">
+    Pokepost - Share your adventures!✨
+  </p>
+  <p class="text-gray-400">
+    © <span id="current-year"></span> Pokepost. Gotta share 'em all!
+  </p>
+</footer>
+
+  <script>
+    // Set current year dynamically
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+  </script>
 </body>
 
 </html>

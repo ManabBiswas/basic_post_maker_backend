@@ -45,6 +45,12 @@ app.get('/profile/update', isloggedIn, async (req, res) => {
 });
 
 
+app.get('/dashboard', isloggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    res.render("dashboard", { user });
+});
+
+
 app.post('/update',upload.single("image"), isloggedIn, async (req, res) => {
         let user = await userModel.findOne({email: req.user.email});
         user.profileImage = req.file.filename;
