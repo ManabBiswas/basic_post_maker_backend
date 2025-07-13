@@ -8,6 +8,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
 const user = require('./models/user');
 const multerconfig = require('./config/multerconfig');
+const upload = require('./config/multerconfig');
+const { log } = require('console');
 
 app.set("view engine", "ejs")
 app.use(express.json());
@@ -35,6 +37,20 @@ const isloggedIn = (req, res, next) => {
 
 app.get('/', (req, res) => {
     res.render("index")
+})
+
+app.get('/profile/update', isloggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    res.render("updateProfile", { user });
+});
+
+
+app.post('/update',upload.single("image"), isloggedIn, async (req, res) => {
+        let user = await userModel.findOne({email: req.user.email});
+        user.profileImage = req.file.filename;
+        await user.save();
+        console.log(req.file)
+    res.redirect('/profile');
 })
 
 app.get('/login', (req, res) => {
