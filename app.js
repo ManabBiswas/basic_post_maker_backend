@@ -46,9 +46,9 @@ app.get('/profile/update', isloggedIn, async (req, res) => {
 
 
 app.get('/dashboard', isloggedIn, async (req, res) => {
-    let user = await userModel.findOne({ email: req.user.email });
-    let posts =await postModel.find();
-    res.render("dashboard", { user, posts });
+    let user1 = await userModel.findOne({ email: req.user.email });
+    let posts =await postModel.find().populate("user");
+    res.render("dashboard", { user1, posts });
 });
 
 

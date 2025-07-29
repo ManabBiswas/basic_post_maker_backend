@@ -9,15 +9,17 @@
 </head>
 
 <body class="bg-gradient-to-br from-emerald-50 via-white to-green-100 min-h-screen font-sans text-gray-800">
+
   <!-- Navbar -->
   <nav class="sticky top-0 z-20 flex justify-between items-center px-6 py-4 bg-white/70 backdrop-blur-md shadow-sm border-b border-green-100">
     <h1 class="text-xl sm:text-2xl font-bold text-emerald-700">
       Pokepost 🍃
     </h1>
-    <div class="flex items-center gap-3">
-      <a href="/profile" class="px-4 py-2 bg-blue-500 text-white font-medium rounded-lg hover:bg-blue-600 transition shadow-md text-sm">
-        Profile
+    <div class="flex items-center justify-center gap-4">
+      <a href="/profile" class="w-12 h-12 rounded-full overflow-hidden shadow-lg border-2 border-emerald-300 hover:border-blue-600 transition">
+        <img src="/images/uploads/<%= user1.profileImage %>" alt="<%= user1.name %>'s profile image" class="w-full h-full object-cover" />
       </a>
+
       <form method="get" action="/logout" class="inline">
         <input type="submit" value="Logout" class="px-4 py-2 bg-emerald-500 text-white font-medium rounded-lg hover:bg-emerald-600 transition shadow-md cursor-pointer text-sm" />
       </form>
@@ -51,9 +53,9 @@
           </p>
           <!-- Author Info -->
           <div class="flex items-center gap-2 mb-4">
-            <img src="/images/uploads/<%= user.profileImage %>" alt="<%= user.name %>" class="w-6 h-6 rounded-full object-cover border border-emerald-200" />
+            <img src="/images/uploads/<%= post.user.profileImage %>" alt="<%=post.user.name %>'s profile image" class="w-6 h-6 rounded-full object-cover border border-emerald-200" />
             <p class="text-emerald-600 text-sm font-medium">
-              @<%= user.username %>
+              @<%=post.user.username %>
             </p>
           </div>
           <!-- Engagement Stats -->
@@ -70,7 +72,7 @@
             <div class="flex items-center gap-3">
               <a href="/like/<%= post._id %>" class="flex items-center gap-1 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-600 rounded-lg transition-colors duration-200 text-sm font-medium">
                 <span>👍</span>
-                <%= post.likes.indexOf(user._id) !== -1 ? "Unlike" : "Like" %>
+                <%= post.likes.indexOf(user1._id) !== -1 ? "Unlike" : "Like" %>
               </a>
             </div>
             <p class="text-xs text-gray-400 flex items-center gap-1">
@@ -104,23 +106,20 @@
     document.getElementById("current-year").textContent =
       new Date().getFullYear();
 
-    // Responsive image fix for post avatars
-    document.querySelectorAll("img[alt]").forEach((img) => {
-      img.classList.add("w-8", "h-8", "sm:w-6", "sm:h-6");
-    });
-
     // Load More button spinner simulation
-    document
-      .getElementById("loadMoreBtn")
-      .addEventListener("click", function() {
-        document.getElementById("loadMoreText").textContent = "Loading...";
-        document.getElementById("loadMoreSpinner").classList.remove("hidden");
+    const loadMoreBtn = document.getElementById("loadMoreBtn");
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener("click", function() {
+        const loadMoreText = document.getElementById("loadMoreText");
+        const loadMoreSpinner = document.getElementById("loadMoreSpinner");
+        if (loadMoreText) loadMoreText.textContent = "Loading...";
+        if (loadMoreSpinner) loadMoreSpinner.classList.remove("hidden");
         setTimeout(() => {
-          document.getElementById("loadMoreText").textContent =
-            "Load More Adventures";
-          document.getElementById("loadMoreSpinner").classList.add("hidden");
+          if (loadMoreText) loadMoreText.textContent = "Load More Adventures";
+          if (loadMoreSpinner) loadMoreSpinner.classList.add("hidden");
         }, 1200);
       });
+    }
   </script>
 </body>
 
