@@ -9,7 +9,6 @@ const jwt = require('jsonwebtoken');
 const user = require('./models/user');
 const multerconfig = require('./config/multerconfig');
 const upload = require('./config/multerconfig');
-const { log } = require('console');
 
 app.set("view engine", "ejs")
 app.use(express.json());
@@ -47,16 +46,16 @@ app.get('/profile/update', isloggedIn, async (req, res) => {
 
 app.get('/dashboard', isloggedIn, async (req, res) => {
     let user1 = await userModel.findOne({ email: req.user.email });
-    let posts =await postModel.find().populate("user");
+    let posts = await postModel.find().populate("user");
     res.render("dashboard", { user1, posts });
 });
 
 
-app.post('/update',upload.single("image"), isloggedIn, async (req, res) => {
-        let user = await userModel.findOne({email: req.user.email});
-        user.profileImage = req.file.filename;
-        await user.save();
-        console.log(req.file)
+app.post('/update', upload.single("image"), isloggedIn, async (req, res) => {
+    let user = await userModel.findOne({ email: req.user.email });
+    user.profileImage = req.file.filename;
+    await user.save();
+    console.log(req.file)
     res.redirect('/profile');
 })
 
@@ -66,48 +65,50 @@ app.get('/login', (req, res) => {
 })
 
 app.get('/profile', isloggedIn, async (req, res) => {
-    let user = await userModel.findOne({email: req.user.email}).populate("posts");
+    let user = await userModel.findOne({ email: req.user.email }).populate("posts");
     // console.log(user)
-    res.render("profile",{user})
+    res.render("profile", { user })
 
 })
 
 app.get('/like/:postid', isloggedIn, async (req, res) => {
-    let post = await postModel.findOne({_id: req.params.postid}).populate("user");
-    if (post.likes.indexOf(req.user.userid)=== -1) {
-        
+    const redirectTo = req.query.redirect || '/dashboard';
+    let post = await postModel.findOne({ _id: req.params.postid }).populate("user");
+    if (post.likes.indexOf(req.user.userid) === -1) {
+
         post.likes.push(req.user.userid);
     } else {
-        
-        post.likes.splice(post.likes.indexOf(req.user.userid),1);
+
+        post.likes.splice(post.likes.indexOf(req.user.userid), 1);
     }
     // post 
     // console.log("it's user id:",req.user.userid)
     await post.save();
-    res.redirect("/profile");
+    res.redirect(redirectTo);
 
 })
 
 app.get('/edit/:postid', isloggedIn, async (req, res) => {
-    let post = await postModel.findOne({_id: req.params.postid}).populate("user");
+    let post = await postModel.findOne({ _id: req.params.postid }).populate("user");
 
-    res.render("edit", {post})
+    res.render("edit", { post })
 
 })
 
 app.post('/update/:postid', isloggedIn, async (req, res) => {
-    let post = await postModel.findOneAndUpdate({_id: req.params.postid}, {content: req.body.content,
+    let post = await postModel.findOneAndUpdate({ _id: req.params.postid }, {
+        content: req.body.content,
         title: req.body.title
     });
-    
+
 
     res.redirect('/profile')
 
 })
 
 app.post('/post', isloggedIn, async (req, res) => {
-    let user = await userModel.findOne({email: req.user.email});
-    let {title,content} = req.body;
+    let user = await userModel.findOne({ email: req.user.email });
+    let { title, content } = req.body;
     let post = await postModel.create({
         user: user._id,
         title,
@@ -170,7 +171,8 @@ app.post('/login', async (req, res) => {
             res.cookie('token', token);
             res.status(200).redirect("/profile");
             console.log("login succesfull");
-        } else {res.redirect('/');
+        } else {
+            res.redirect('/');
             console.log("try again later")
         }
     })
