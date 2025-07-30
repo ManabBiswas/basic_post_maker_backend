@@ -27,7 +27,7 @@ A Pokémon-themed social media platform where trainers can share their adventure
 1. **Clone the repository**
    ```bash
    git clone "https://github.com/ManabBiswas/basic_post_maker_backend"
-   cd pokepost
+   cd basic_post_maker_backend
    ```
 
 2. **Install dependencies**
