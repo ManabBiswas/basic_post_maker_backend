@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const port = process.env.PORT || 3000;
 const userModel = require('./models/user');
 const postModel = require('./models/post');
 const cookieParser = require('cookie-parser');
@@ -181,7 +182,7 @@ app.post('/login', async (req, res) => {
 
 
 
-app.listen(3000, (req, res) => {
-    console.log("the is running at http://localhost:3000")
+app.listen(port, (req, res) => {
+    console.log(`the is running at http://localhost:${port}`)
 })
 
