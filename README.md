@@ -27,7 +27,7 @@ A Pokémon-themed social media platform where trainers can share their adventure
 1. **Clone the repository**
    ```bash
    git clone "https://github.com/ManabBiswas/basic_post_maker_backend"
-   cd pokepost
+   cd basic_post_maker_backend
    ```
 
 2. **Install dependencies**
@@ -160,7 +160,7 @@ Make sure you have the following installed:
 4. **Explore**: Browse community posts on the dashboard
 5. **Interact**: Like posts from other trainers
 6. **Manage**: Edit your posts and update your profile
-
+<!--
 ## Contributing
 
 1. Fork the repository
@@ -168,7 +168,7 @@ Make sure you have the following installed:
 3. Commit your changes (`git commit -am 'Add new feature'`)
 4. Push to the branch (`git push origin feature/new-feature`)
 5. Create a Pull Request
-
+-->
 ## Future Enhancements
 
 - [ ] Comment system on posts
